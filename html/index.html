@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Debug Panel</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 2em; }
+        h1 { color: #333; }
+        table { margin: 0 auto; border-collapse: collapse; width: 70%; }
+        th, td { padding: 10px 15px; border: 1px solid #ddd; }
+        th { background-color: #f4f4f4; }
+        .status { font-weight: bold; }
+        .active { color: green; }
+        .inactive { color: red; }
+        .pending { color: orange; }
+    </style>
+</head>
+<body>
+    <h1>Server Debug Panel for server.farmineland.online</h1>
+
+    <h2>Service Status</h2>
+    <table>
+        <tr>
+            <th>Service</th>
+            <th>Status</th>
+            <th>Response Time (ms)</th>
+        </tr>
+        <tr>
+            <td>TFS (Port 7171)</td>
+            <td id="status-tfs" class="status pending">Checking...</td>
+            <td id="response-tfs">-</td>
+        </tr>
+        <tr>
+            <td>WSS (Port 443)</td>
+            <td id="status-wss" class="status pending">Checking...</td>
+            <td id="response-wss">-</td>
+        </tr>
+        <tr>
+            <td>HTTP (Port 80)</td>
+            <td id="status-http" class="status pending">Checking...</td>
+            <td id="response-http">-</td>
+        </tr>
+    </table>
+
+    <h2>Ping Test</h2>
+    <p>Average Ping: <span id="avg-ping">Calculating...</span> ms</p>
+
+    <h2>Ping Attempts</h2>
+    <table id="ping-table">
+        <thead>
+            <tr>
+                <th>Attempt</th>
+                <th>Ping (ms)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Ping results will be inserted here dynamically -->
+        </tbody>
+    </table>
+
+    <script>
+        async function checkService(url, port, statusId, responseId) {
+            const fullUrl = `${url}:${port}`;
+            const statusElement = document.getElementById(statusId);
+            const responseElement = document.getElementById(responseId);
+
+            const start = Date.now();
+            try {
+                const response = await fetch(fullUrl, { mode: 'no-cors', cache: 'no-store' });
+                const end = Date.now();
+
+                statusElement.textContent = 'Active';
+                statusElement.className = 'status active';
+                responseElement.textContent = end - start;
+            } catch (error) {
+                statusElement.textContent = 'Inactive';
+                statusElement.className = 'status inactive';
+                responseElement.textContent = '-';
+            }
+        }
+
+        async function testPing() {
+            const pingAttempts = 5; // Number of attempts
+            const pingResults = [];
+            const tableBody = document.querySelector("#ping-table tbody");
+
+            for (let i = 1; i <= pingAttempts; i++) {
+                const start = Date.now();
+                try {
+                    await fetch(location.href, { cache: "no-store" }); // Ping the domain
+                    const end = Date.now();
+                    const ping = end - start;
+                    pingResults.push(ping);
+
+                    // Update table with the result
+                    const row = document.createElement("tr");
+                    row.innerHTML = `<td>${i}</td><td>${ping}</td>`;
+                    tableBody.appendChild(row);
+                } catch (error) {
+                    // If ping fails, mark as "Timeout"
+                    const row = document.createElement("tr");
+                    row.innerHTML = `<td>${i}</td><td>Timeout</td>`;
+                    tableBody.appendChild(row);
+                }
+            }
+
+            // Calculate and display the average ping
+            const avgPing = pingResults.length > 0 ? 
+                Math.round(pingResults.reduce((a, b) => a + b) / pingResults.length) : 
+                "Timeout";
+            document.getElementById("avg-ping").innerText = avgPing;
+        }
+
+        // Check services
+        checkService('https://server.farmineland.online', 7171, 'status-tfs', 'response-tfs');
+        checkService('https://server.farmineland.online', 443, 'status-wss', 'response-wss');
+        checkService('http://server.farmineland.online', 80, 'status-http', 'response-http');
+
+        // Run ping test
+        testPing();
+    </script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+Player ID: 4, Player Name: [ADM] Necro, Item ID: 27945, Market Fee: 100
+Player ID: 4, Player Name: [ADM] Necro, Item ID: 27945, Market Fee: 5
+Player ID: 4, Player Name: [ADM] Necro, Item ID: 27872, Market Fee: 5

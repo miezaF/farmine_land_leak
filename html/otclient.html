@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" name="viewport">
+    <title>Farmine Land WebPlayer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background-color: #000;
+            overscroll-behavior: contain;
+            background-image: url('background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .backbuffer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 0;
+            border: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: block;
+            image-rendering: optimizeSpeed;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -o-crisp-edges;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: optimize-contrast;
+            image-rendering: crisp-edges;
+            -ms-interpolation-mode: nearest-neighbor;
+        }
+
+        #logo {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 100%;
+            max-height: 50%;
+            object-fit: contain;
+        }
+
+        #status-container {
+            position: absolute;
+            top: calc(40% + 100px);
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: #fff;
+            font-family: 'Bungee Spice', sans-serif;
+        }
+
+        #status-text {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        #start {
+            position: absolute;
+            left: 50%;
+            top: calc(40% + 100px);
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            font-size: 2rem;
+            font-family: 'Bungee Spice', sans-serif;
+            display: none;
+            border: 2px solid #F1A300; /* Borda adicionada */
+            background-image: url('background.png');
+            color: white; /* Cor do texto, caso necessário */
+            padding: 10px 20px; /* Ajuste de espaçamento interno */
+            cursor: pointer; /* Mostra o cursor de botão */
+        }
+    </style>
+</head>
+<body>
+    <div class="title" contenteditable id="title-text" virtualkeyboardpolicy="manual"></div>
+    <button id="start" onclick="startGame()">Start</button>
+    <canvas class="backbuffer" id="canvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
+    <img id="logo" src="logo.png" alt="Logo">
+    <div id="status-container">
+        <div id="status-text">Initializing...</div>
+    </div>
+    <script>
+        var canvas = document.getElementById("canvas");
+
+        function startGame() {
+            // Esconde o botão Start
+            document.getElementById("start").style.display = "none";
+
+            // Remove a logo ao iniciar o jogo
+            const logo = document.getElementById("logo");
+            if (logo) {
+                logo.remove();
+            }
+
+            // Inicia a aplicação principal
+            callMain();
+
+            document.addEventListener("touchstart", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+            document.addEventListener("touchmove", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+            document.addEventListener("touchend", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+            document.addEventListener("keyup", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+            document.addEventListener("keydown", function (e) {
+                if (
+                    e.ctrlKey ||
+                    "Enter" === e.key ||
+                    "Escape" === e.key ||
+                    "Backspace" === e.key ||
+                    "ArrowLeft" === e.key ||
+                    "ArrowRight" === e.key ||
+                    "ArrowUp" === e.key ||
+                    "ArrowDown" === e.key
+                ) {
+                    if (e.ctrlKey && "v" === e.key) return true;
+                } else canvas.dispatchEvent(new KeyboardEvent("keypress", e));
+                e.preventDefault();
+                e.stopPropagation();
+            });
+        }
+
+        var Module = {
+            locateFile: function (e) {
+                return (
+                    window.location.origin +
+                    window.location.pathname.substring(
+                        0,
+                        window.location.pathname.lastIndexOf("/")
+                    ) +
+                    "/" +
+                    e
+                );
+            },
+            preRun: [
+                function () {
+                    addRunDependency("syncfs");
+                    FS.analyzePath("/user").exists || FS.mkdir("/user");
+                    FS.mount(IDBFS, { autoPersist: true }, "/user");
+                    FS.syncfs(true, function (e) {
+                        if (e) Module.print(e);
+                        removeRunDependency("syncfs");
+                    });
+                },
+            ],
+            postRun: [],
+            print: function (e) {
+                e = Array.prototype.slice.call(arguments).join(" ");
+                console.log(e);
+            },
+            printErr: function (e) {
+                e = Array.prototype.slice.call(arguments).join(" ");
+                console.error(e);
+            },
+            canvas: document.getElementById("canvas"),
+            setStatus: function (e) {
+                let n = "";
+                if (e.includes("Running...")) {
+                    n = "Loading...";
+                    document.getElementById("start").style.display = "block";
+                } else if (e.includes("Downloading data...")) {
+                    n = e;
+                }
+                document.getElementById("status-text").innerHTML = n;
+            },
+            monitorRunDependencies: function (e) {
+                document.getElementById("status-text").innerHTML = "Initializing...";
+            },
+        };
+
+        window.onerror = function (event) {
+            console.log("onerror: " + event.message);
+        };
+    </script>
+    <script async src="otclient.js"></script>
+</body>
+</html>

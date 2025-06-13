@@ -1,0 +1,6 @@
+Player ID: 4, Player Name: [ADM] Necro, Collected Fee: 100
+Total Collected Fees so far: 100
+Player ID: 4, Player Name: [ADM] Necro, Collected Fee: 5
+Total Collected Fees so far: 105
+Player ID: 4, Player Name: [ADM] Necro, Collected Fee: 5
+Total Collected Fees so far: 110
