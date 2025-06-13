@@ -1,0 +1,45 @@
+{
+  "name": "tropical land small",
+  "image": "https://farmine.land/metadata/collection/land/image/tropical/07.jpg",
+  "attributes": [
+    {
+      "value": "31",
+      "trait_type": "Landzone"
+    },
+    {
+      "value": "07",
+      "trait_type": "Land Plot"
+    },
+    {
+      "value": "tropical",
+      "trait_type": "Bioma"
+    },
+    {
+      "value": "small",
+      "trait_type": "Land Size"
+    },
+    {
+      "value": "12 slots",
+      "trait_type": "Plant"
+    },
+    {
+      "value": "6 slots",
+      "trait_type": "Harvest"
+    },
+    {
+      "value": "30 slots",
+      "trait_type": "Mining"
+    },
+    {
+      "value": "18 slots",
+      "trait_type": "Livestock"
+    },
+    {
+      "value": "Common",
+      "trait_type": "Fishing Boat"
+    }
+  ],
+  "description": "There is a tropical Land",
+  "external_url": "https://farmine.land/",
+  "animation_url": "https://farmine.land/metadata/collection/land/image/tropical/07.webm"
+}

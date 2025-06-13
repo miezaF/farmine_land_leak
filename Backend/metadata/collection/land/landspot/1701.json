@@ -1,0 +1,45 @@
+{
+  "name": "snow land large",
+  "image": "https://farmine.land/metadata/collection/land/image/snow/01.jpg",
+  "attributes": [
+    {
+      "value": "17",
+      "trait_type": "Landzone"
+    },
+    {
+      "value": "01",
+      "trait_type": "Land Plot"
+    },
+    {
+      "value": "snow",
+      "trait_type": "Bioma"
+    },
+    {
+      "value": "large",
+      "trait_type": "Land Size"
+    },
+    {
+      "value": "64 slots",
+      "trait_type": "Plant"
+    },
+    {
+      "value": "80 slots",
+      "trait_type": "Harvest"
+    },
+    {
+      "value": "54 slots",
+      "trait_type": "Mining"
+    },
+    {
+      "value": "64 slots",
+      "trait_type": "Livestock"
+    },
+    {
+      "value": "Large",
+      "trait_type": "Fishing Boat"
+    }
+  ],
+  "description": "There is a snow Land",
+  "external_url": "https://farmine.land/",
+  "animation_url": "https://farmine.land/metadata/collection/land/image/snow/01.webm"
+}

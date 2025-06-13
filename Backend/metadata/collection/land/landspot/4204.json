@@ -1,0 +1,45 @@
+{
+  "name": "desert land medium",
+  "image": "https://farmine.land/metadata/collection/land/image/desert/04.jpg",
+  "attributes": [
+    {
+      "value": "42",
+      "trait_type": "Landzone"
+    },
+    {
+      "value": "04",
+      "trait_type": "Land Plot"
+    },
+    {
+      "value": "desert",
+      "trait_type": "Bioma"
+    },
+    {
+      "value": "medium",
+      "trait_type": "Land Size"
+    },
+    {
+      "value": "48 slots",
+      "trait_type": "Plant"
+    },
+    {
+      "value": "30 slots",
+      "trait_type": "Harvest"
+    },
+    {
+      "value": "38 slots",
+      "trait_type": "Mining"
+    },
+    {
+      "value": "36 slots",
+      "trait_type": "Livestock"
+    },
+    {
+      "value": "Common",
+      "trait_type": "Fishing Boat"
+    }
+  ],
+  "description": "There is a desert Land",
+  "external_url": "https://farmine.land/",
+  "animation_url": "https://farmine.land/metadata/collection/land/image/desert/04.webm"
+}
